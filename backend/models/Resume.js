@@ -1,92 +1,17 @@
-// installare multer per salvare img: https://www.npmjs.com/package/multer
 const mongoose = require("mongoose")
-
 // Child documents
-const AddressSchema = new mongoose.Schema({
-  addressLine: {
-    type: String,
-    required: [true, "Must provide field"],
-    trim: true,
-    maxlength: [20, "the name is too long"],
-  },
-  link: {
-    type: Boolean,
-    default: false,
-  },
-})
-
-const SkillSchema = mongoose.Schema({
-  category: {
-    type: String,
-    required: [true, "Must provide field"],
-    trim: true,
-    maxlength: [25, "the field is too long"],
-  },
-  skill: {
-    type: [String],
-    required: true,
-    validate: {
-      validator: function (v) {
-        return v && v.length > 0
-      },
-      message: props => `Must provide ${props.value} `,
-    },
-  },
-})
-
-const LanguageSchema = new mongoose.Schema({
-  language: {
-    type: String,
-    required: [true, "Must provide field"],
-    trim: true,
-    maxlength: [20, "the field is too long"],
-  },
-  level: {
-    type: String,
-    required: [true, "Must provide field"],
-    trim: true,
-    maxlength: [10, "the field is too long"],
-  },
-})
-
-const ExperienceSchema = mongooseSchema({
-  company: {
-    type: String,
-    required: [true, "Must provide field"],
-    trim: true,
-    maxlength: [20, "the field is too long"],
-  },
-  period: {
-    type: String,
-    required: [true, "Must provide field"],
-    trim: true,
-    maxlength: [20, "the field is too long"],
-  },
-  description: {
-    type: String,
-    required: [true, "Must provide field"],
-    trim: true,
-    maxlength: [500, "the field is too long"],
-  },
-})
-
-const EducationSchema = mongooseSchema({
-  school: {
-    type: String,
-    required: [true, "Must provide field"],
-    trim: true,
-    maxlength: [20, "the field is too long"],
-  },
-  period: {
-    type: String,
-    required: [true, "Must provide field"],
-    trim: true,
-    maxlength: [20, "the field is too long"],
-  },
-})
+const {
+  AddressSchema,
+  SkillSchema,
+  LanguageSchema,
+  ExperienceSchema,
+  EducationSchema,
+  ImageSchema,
+} = require("./ResumeChildrens")
 
 // Parent document
 const ResumeSchema = new mongoose.Schema({
+  image: ImageSchema,
   name: {
     type: String,
     required: [true, "Must provide name"],
@@ -141,3 +66,5 @@ const ResumeSchema = new mongoose.Schema({
   },
   educationList: [EducationSchema],
 })
+
+module.exports = mongoose.model("Resume", ResumeSchema)
